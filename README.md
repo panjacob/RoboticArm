@@ -1,107 +1,104 @@
-# MKS-TinyBee
-  - MKS TinyBee is a mainboard for 3d printing, based on ESP32 module. Support Marlin2.0 firmware, in addition to ordinary LCD2004, 12864 screens, it also supports MKS MINI12864 V3, and MKS TFT serial screen, and MKS H43. The firmware can be updated via USB. Can be connected to WIFI, web page control printing. 
-  - MKS TinyBee小蜜蜂主板，是一款集成ESP32 wifi模块的3D打印控制板。支持Marlin 2.0固件，除了支持普通的LCD2004,12864之外，还支持了MKS MINI12864 V3，并且，可以使用MKS TFT串口屏、MKS H43。固件更新可以使用USB直接下载，可以连接wifi进行网页控制打印。
-    ![MKS TinyBee](https://github.com/makerbase-mks/MKS-TinyBee/blob/main/hardware/Image/MKS%20TinyBee%20V1.x.png)
+# MKS TinyBee – Marlin firmware + gamepad motor control
 
-# How to buy MKS TinyBee
-- Makerbase official: https://www.aliexpress.com/item/1005003639545394.html
-- Makerbase Global:   https://www.aliexpress.com/item/1005003640084870.html
+Marlin 2.0.9.2 configured for the **MKS TinyBee** (ESP32) board, plus Python tools to
+send G-code over USB and jog motors with a gamepad.
 
-# Features
-  - Support Marlin 2.0.x
-  - Support LCD2004/12864, [MKS MINI12864 V3](https://www.aliexpress.com/store/group/LCD/1047297_516922172.html?spm=a2g0o.detail.0.0.497c6bdbl6nCQJ)
-  - Support [MKS TFT](https://www.aliexpress.com/store/group/TFT/1047297_516922169.html?spm=a2g0o.store_pc_groupList.pcShopHead_8325768.1_1_0) series screen, MKS TFT24/28/32/35
-  - Use USB upload firmware
-  - Printing by connect wifi web control
+## Repository layout
 
-# Board parameters
-  - MCU is ESP32-WROOM-32U, Flash: 8192K, RAM: 520K, the frequency is: 240MHz 
-  - Use power dc12~24V input
-  - Support power reverse connection protection and power spike protection
-  - Has 2 heater end+ 1 Heater BED, 3 NTC100K: TH1, TB, TH2(Need jumper selection)
-  - 2 Channel and 2 power output xh2.54-2p interface
-  - 5 axis 6 motor interface(Dual Z axis in parallel)
-  - STEP/DIR moode and support external for high current drives
-  - Microstep settings use DIP switch
-  - Has X, Y, Z, MT_DET detection interface
-  - Support [3D Touch](https://www.aliexpress.com/store/group/Auto-bed-leveling-senor/1047297_516621299.html?spm=a2g0o.store_pc_groupList.pcShopHead_8325768.1_2_3)
+| Path | Contents |
+|------|----------|
+| `Marlin/` | Firmware source. Machine settings live in `Marlin/Configuration.h` and `Marlin/Configuration_adv.h` |
+| `platformio.ini`, `ini/` | PlatformIO build configuration (default env: `mks_tinybee`) |
+| `buildroot/` | Marlin build scripts and helpers |
+| `tools/` | Python serial / gamepad tools – see [tools/README.md](tools/README.md) |
 
-# Size
-  - MKS TinyBee motherboard installation size compatible with MKS Gen-L, Nano V3
-    ![MKS TinyBee Size](https://github.com/makerbase-mks/MKS-TinyBee/blob/main/hardware/Image/MKS%20TinyBee%20V1.x%20Size.png)
+## What you need
 
-# Wiring
-  ![MKS TinyBee Wiring](https://github.com/makerbase-mks/MKS-TinyBee/blob/main/hardware/Image/MKS%20TinyBee%20V1.x%20Wiring.png)
+### Hardware
 
-# PinMap
-  | Items      |  Function  | Pin |
-  |------------|------------|------------|
-  | Heater |   H-BED | IO144 |
-  | Heater | H-E0 | IO145 |
-  | Heater | H-E1 | IO146 |
-  | PWM FANs | FAN1 | IO147 |
-  | PWM FANs | FAN2 | IO148 |
-  | Steppers | X_ENABLE | IO128 |
-  | Steppers | X_STEP | IO129 |
-  | Steppers | X_DIR | IO130 |
-  | Steppers | Y_ENABLE | IO131 |
-  | Steppers | Y_STEP | IO132 |
-  | Steppers | Y_DIR | IO133 |
-  | Steppers | Z_ENABLE | IO134 |
-  | Steppers | Z_STEP | IO135 |
-  | Steppers | Z_DIR | IO136 |
-  | Steppers | E0_ENABLE | IO137 |
-  | Steppers | E0_STEP | IO138 |
-  | Steppers | E0_DIR | IO139 |
-  | Steppers | E1_ENABLE | IO140 |
-  | Steppers | E1_STEP | IO141 |
-  | Steppers | E1_DIR | IO142 |
-  | Endstops | X_STOP | IO33 |
-  | Endstops | Y_STOP | IO32 |
-  | Endstops | Z_STOP | IO22 |
-  | Detection  | MT_DET | IO35 |
-  | Servo | 3D TOUCH | IO2 |
-  | THM | TH1 | IO36 |
-  | THM | TH2 | IO34(Need jumper selection) |
-  | THM | TB | IO39 |
-  | EXP1 | BEERPER | IO149 |
-  | EXP1 | BTN_ENC | IO13 |
-  | EXP1 | LCD_EN | IO21 |
-  | EXP1 | LCD_RS | IO4 |
-  | EXP1 | LCD_D4 | IO0 |
-  | EXP1 | LCD_D5 | IO16 |
-  | EXP1 | LCD_D6 | IO15 |
-  | EXP1 | LCD_D7 | IO17 |
-  | EXP2 | SD_MISO | IO19 |
-  | EXP2 | SD_SCK | IO18 |
-  | EXP2 | BTN_EN1 | IO14 |
-  | EXP2 | SD_CS | IO5 |
-  | EXP2 | BTN_EN2 | IO12 |
-  | EXP2 | SD_MOSI | IO23 |
-  | EXP2 | SD_DET | IO34(Default for SD_DET function) |
-  | TF CARD | CS | IO5 |
-  | TF CARD | SCK | IO18 |
-  | TF CARD | MISO | IO19 |
-  | TF CARD | MOSI | IO23 |
-  | TF CARD | DET | IO34(Default for SD_DET function) |
-  | USART2 | TXD2 | IO17 |
-  | USART2 | RXD2 | IO16 |
-  | USB | USB to serial port | USART0 |
+- MKS TinyBee board (ESP32, 5× TMC2209 in standalone mode by default)
+- USB cable (the board uses a CH340 USB-serial chip)
+- 12–24 V power supply for the motors
+- Stepper motors connected to X / Y / Z / E0 / E1
+- A gamepad (Xbox, PlayStation or generic USB/Bluetooth controller) for the gamepad tool
 
-# Firmware Config
-  - Support Marlin 2.0.x
+### Software
 
-  ## Note
-- Thank you for using MKS products. If you have any questions during use, please contact us in time and we will work with you to solve it.
-- For more product dynamic information and tutorial materials, you can always follow MKS's Facebook/Twitter/Discord/Reddit/Youtube and Github. Thank you!
-- MKS Github: https://github.com/makerbase-mks  
-- MKS Facebook: https://www.facebook.com/Makerbase.mks/  
-- MKS Twitter: https://twitter.com/home?lang=en  
-- MKS Discord: https://discord.gg/4uar57NEyU
-- MKS Reddit: https://www.reddit.com/user/MAKERBASE-TEAM/ 
+- [Python 3.9+](https://www.python.org/downloads/) (tested with 3.12)
+- [VS Code](https://code.visualstudio.com/) with the **PlatformIO IDE** extension
+  (or PlatformIO Core: `pip install platformio`)
+- [CH340 driver](https://www.wch-ic.com/downloads/CH341SER_EXE.html) on Windows if the board does not show up as a COM port
 
-  ![mks_link](https://user-images.githubusercontent.com/12979070/149611763-5b1663cd-920e-43f6-bb94-8d0fb51b74ba.png)
+## 1. Build and flash the firmware
 
-  
-  
-  
+1. Open the repository folder in VS Code; PlatformIO will download the ESP32 toolchain on first open.
+2. Adjust `Marlin/Configuration.h` if needed (steps/mm, driver types, endstops, `BAUDRATE`, ...).
+3. Connect the board over USB.
+4. Build and upload:
+
+   ```powershell
+   pio run -e mks_tinybee -t upload
+   ```
+
+   or use the PlatformIO toolbar (✓ Build, → Upload).
+   If the wrong port is picked, set `upload_port = COMx` under `[env:mks_tinybee]` in `ini/esp32.ini`.
+5. Verify with the serial monitor (`pio device monitor -b 115200`) or:
+
+   ```powershell
+   python tools\serial_gcode_sender.py --port COM6 --command M115
+   ```
+
+## 2. Set up the Python tools
+
+```powershell
+python -m venv tools\venv
+tools\venv\Scripts\Activate.ps1
+python -m pip install -r tools\requirements.txt
+```
+
+Linux/macOS:
+
+```bash
+python3 -m venv tools/venv
+source tools/venv/bin/activate
+pip install -r tools/requirements.txt
+```
+
+## 3. Set up the gamepad
+
+1. Connect the gamepad and check that the OS detects it
+   (Windows: press `Win+R`, run `joy.cpl`, and move the sticks).
+2. Find the board's serial port (Windows: Device Manager → *Ports (COM & LPT)*).
+   Close any other app that uses this port.
+3. Edit the config block at the top of `tools/gamepad_motor_controller.py`:
+
+   ```python
+   SERIAL_PORT = "COM6"   # "" = dry run, only prints commands
+   GAMEPAD_INDEX = 0      # first connected controller
+   STICK_AXIS = 0         # 0 = left stick X, 1 = left stick Y (typical)
+   MOTOR_AXIS = "X"       # X, Y, Z or E
+   STEP_MM = 3.0          # distance per move at full stick
+   FEEDRATE = 20000       # mm/min
+   ```
+
+4. Do a dry run first (`SERIAL_PORT = ""`) to confirm the stick produces commands,
+   then set the real port and start with a small `STEP_MM`.
+5. Run:
+
+   ```powershell
+   python tools\gamepad_motor_controller.py
+   ```
+
+   Stop with `Ctrl+C` – the motors are stopped (`M410`) and disabled (`M84`).
+
+Full list of settings and serial sender examples: [tools/README.md](tools/README.md).
+
+## Safety
+
+- The tools do **not** home the machine; make sure axes have room to move.
+- Keep moves small until motor direction and wiring are confirmed.
+- Keep a hand near the power switch the first time you drive motors.
+
+## License
+
+Marlin is licensed under the GNU GPL v3 – see [LICENSE](LICENSE).

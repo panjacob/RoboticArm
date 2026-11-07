@@ -1,0 +1,30 @@
+# PlatformIO build output and downloaded libraries
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# VS Code - keep only the shared extension recommendations
+.vscode/*
+!.vscode/extensions.json
+
+# JetBrains IDEs (PyCharm, CLion)
+.idea/
+*.iml
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+env/
+
+# Logs and serial session transcripts
+*.log
+
+# Local helper scripts
+delete.bat
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
